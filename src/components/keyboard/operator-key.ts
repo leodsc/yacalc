@@ -15,7 +15,11 @@ export class OperatorKey implements IKey {
     const previousToken = expression[cursorPosition - 1];
     const nextToken = expression[cursorPosition + 1];
 
-    if (isNumber(previousToken) || isParenthesis(previousToken)) {
+    if (
+      isNumber(previousToken) ||
+      isParenthesis(previousToken) ||
+      previousToken === '%'
+    ) {
       return insertAt(expression.split(''), cursorPosition, this.value).join(
         '',
       );

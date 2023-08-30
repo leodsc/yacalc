@@ -30,11 +30,10 @@ export class Postfix {
 
   constructor(infixExpression: string) {
     this.infix = this.parse(infixExpression);
-    console.log(this.infix);
   }
 
   private parse(expression: string) {
-    let tokens = [];
+    let tokens: string[] = [];
     let current = '';
 
     for (const item of expression) {
@@ -45,6 +44,9 @@ export class Postfix {
 
         tokens.push(item);
         current = '';
+      } else if (item === '%') {
+        tokens.push(String(Number(current) / 100));
+        current = '';
       } else if (item !== ' ') {
         current += item;
       }
@@ -54,6 +56,7 @@ export class Postfix {
       tokens.push(current);
     }
 
+    console.log(tokens);
     return tokens.map(token => token.replace(',', '.'));
   }
 

@@ -9,5 +9,5 @@ export const detectDecimalSeparator = () => {
   return {
     decimal: value.includes('.') ? '.' : ',',
     unit: value.includes(',') ? '.' : ',',
-  };
+  } as const;
 };
