@@ -1,6 +1,6 @@
 import {Stack} from './stack';
 
-export type Operators = '+' | '-' | '*' | '/' | '^';
+export type Operators = '+' | '-' | '*' | '/' | '^' | 'x' | '÷';
 type Parenthesis = '(' | ')';
 
 type OperatorPrecedenceType = {
@@ -11,12 +11,14 @@ const OperatorPrecedence: OperatorPrecedenceType = {
   '+': 0,
   '-': 0,
   '*': 1,
+  x: 1,
+  '÷': 1,
   '/': 1,
   '^': 3,
 };
 
 export const isOperator = (value: string): value is Operators => {
-  return ['+', '-', '*', '/', '^'].includes(value);
+  return ['+', '-', '*', '/', '^', 'x', '÷'].includes(value);
 };
 
 export const isParenthesis = (value?: string): value is Parenthesis => {
@@ -56,7 +58,6 @@ export class Postfix {
       tokens.push(current);
     }
 
-    console.log(tokens);
     return tokens.map(token => token.replace(',', '.'));
   }
 

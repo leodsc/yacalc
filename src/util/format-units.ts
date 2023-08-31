@@ -1,51 +1,67 @@
-import {isNumber} from '../components/keyboard/keys';
 import {detectDecimalSeparator} from './detect-decimal-separator';
+import {isOperator, isParenthesis} from './postfix';
 
-const format = (value: string) => {
-  if (value.length < 3) {
-    return value;
-  }
-
-  let i = 0;
-  const formattedValue = [];
-  const reversedValues = value.split('').reverse();
-
-  for (const v of reversedValues) {
-    if (v === '.') break;
-
-    if (i % 3 === 0 && i !== 0) {
-      formattedValue.unshift(',');
-    }
-    formattedValue.unshift(v);
-    i += 1;
-  }
-
-  return formattedValue.join('');
-};
-
-export const formatUnits = (expression: string) => {
-  const {unit} = detectDecimalSeparator();
-  expression = expression.replaceAll(unit, '');
+const tokenize = (expression: string) => {
+  const tokens: string[] = [];
   let current = '';
-  const tokens = [];
 
   for (const token of expression) {
-    if (isNumber(token)) {
-      current += token;
-    } else {
-      tokens.push(current);
-      tokens.push(token);
+    if (token === '%' || isOperator(token) || isParenthesis(token)) {
+      if (current !== '') {
+        tokens.push(current);
+      }
+
       current = '';
+      tokens.push(token);
+    } else {
+      current += token;
     }
   }
 
-  if (current.length > 0) {
+  if (current !== '') {
     tokens.push(current);
   }
 
-  for (const [index, token] of tokens.entries()) {
-    tokens[index] = format(token);
+  return tokens;
+};
+
+const format = (token: string) => {
+  const {decimal, unit} = detectDecimalSeparator();
+  const [integerPart, decimalPart] = token.split(decimal);
+
+  if (integerPart.length < 4) {
+    return token;
   }
 
-  return tokens.join('');
+  const reversedInteger = integerPart
+    .split('')
+    .filter(value => value !== unit)
+    .reverse();
+  const formattedInteger = [];
+  let i = 0;
+  for (const value of reversedInteger) {
+    if (i % 3 === 0 && i !== 0) {
+      formattedInteger.unshift(unit);
+    }
+
+    formattedInteger.unshift(value);
+    i++;
+  }
+
+  if (decimalPart !== undefined) {
+    return `${formattedInteger.join('')}${decimal}${decimalPart}`;
+  }
+
+  return formattedInteger.join('');
+};
+
+export const formatUnits = (expression: string) => {
+  const tokens = tokenize(expression);
+
+  console.log(tokens);
+  return tokens
+    .map(token => {
+      return format(token);
+    })
+    .join('');
 };

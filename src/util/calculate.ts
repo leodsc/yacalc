@@ -1,6 +1,9 @@
 import {Operators, Postfix, isOperator} from './postfix';
 import {Stack} from './stack';
 
+/**
+ * @author Leonardo Carvalho
+ */
 class Calculator {
   private postfix: string[] = [];
   private stack = new Stack<string>();
@@ -27,7 +30,20 @@ class Calculator {
     }
   };
 
+  /**
+   * @description evaluate postfix expressions into a single number
+   * @param expression infix expression to be evaluated
+   * @param precision number of decimal places
+   * @returns evaluated expression
+   */
   calculate = (expression: string, precision = 9) => {
+    expression = isOperator(expression.at(-1) ?? '')
+      ? expression
+          .split('')
+          .slice(0, expression.length - 1)
+          .join('')
+      : expression;
+    console.log(expression);
     this.postfix = new Postfix(expression).convert();
 
     for (const item of this.postfix) {
@@ -40,9 +56,16 @@ class Calculator {
 
     const result = Number(this.stack.pop());
     const isDecimal = result % 1 !== 0;
+    this.stack.clear();
     return isDecimal ? Number(result.toFixed(precision)) : result;
   };
 }
 
 const calculator = new Calculator();
+/**
+ * @description evaluate postfix expressions into a single number
+ * @param expression postfix expression to be evaluated
+ * @param precision number of decimal places
+ * @returns evaluated expression
+ */
 export const calculate = calculator.calculate;

@@ -3,9 +3,11 @@ import {IKey} from './cutom-key';
 
 export class NumberKey implements IKey {
   value: string;
+  testID: string;
 
-  constructor(value: string) {
+  constructor(value: string, testID?: string) {
     this.value = value;
+    this.testID = testID ? testID : `key-${value}`;
   }
 
   action = (expression: string, cursorPosition: number) => {

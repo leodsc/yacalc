@@ -33,7 +33,11 @@ export const KeyComponent = ({calcKey}: KeyProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={addKey} activeOpacity={0.5} style={styles.key}>
+    <TouchableOpacity
+      testID={calcKey.testID}
+      onPress={addKey}
+      activeOpacity={0.5}
+      style={styles.key}>
       <Text style={styles.text}>{calcKey.value}</Text>
     </TouchableOpacity>
   );

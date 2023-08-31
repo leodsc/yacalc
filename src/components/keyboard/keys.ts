@@ -68,6 +68,7 @@ const commaKey = new CustomKey(
   (expression: string, cursorPosition: number) => {
     const previousToken = expression[cursorPosition - 1];
     const currentNumber = findNumber(expression, cursorPosition);
+    console.log(currentNumber);
     const numberIsDecimal =
       Number(currentNumber.replaceAll(detectDecimalSeparator().unit, '')) %
         1 !==
@@ -91,11 +92,11 @@ export const keys: IKey[] = [
   clearKey,
   parenthesisKey,
   percentageKey,
-  new OperatorKey('÷'),
+  new OperatorKey('÷', 'key-divide'),
   new NumberKey('7'),
   new NumberKey('8'),
   new NumberKey('9'),
-  new OperatorKey('+'),
+  new OperatorKey('+', 'key-plus'),
   new NumberKey('4'),
   new NumberKey('5'),
   new NumberKey('6'),

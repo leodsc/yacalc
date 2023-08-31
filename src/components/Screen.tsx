@@ -11,7 +11,7 @@ export const Screen = () => {
   const [expression, setExpression] = useState('');
   const [position, setPosition] = useState({start: 0, end: 0});
   const [result, setResult] = useState('');
-  let positionUpdate = useRef(1);
+  let positionUpdate = useRef(0);
 
   const toCalculable = (value: string) => {
     const {unit} = detectDecimalSeparator();
@@ -37,8 +37,8 @@ export const Screen = () => {
             const calculated = formatUnits(
               `${calculate(toCalculable(previous))}`,
             );
-            if (isNaN(Number(calculated))) {
-              ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
+            if (isNaN(Number(calculated.replace(',', '')))) {
+              //ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
               return previous;
             }
             return calculated;
@@ -52,12 +52,16 @@ export const Screen = () => {
               positionUpdate.current =
                 formattedExpression.length - previous.length;
               const calculated = calculate(toCalculable(formattedExpression));
+              if (state.currentKey.value === 'C') {
+                setResult('');
+                return '';
+              }
               setResult(
                 isNaN(calculated) ? '' : formatUnits(String(calculated)),
               );
               return formattedExpression;
             } catch (error: any) {
-              ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
+              //ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
               return previous;
             }
           }
@@ -79,6 +83,7 @@ export const Screen = () => {
   return (
     <View style={styles.wrapper}>
       <TextInput
+        testID="expression-input"
         style={styles.input}
         multiline
         selection={position}
@@ -98,7 +103,9 @@ export const Screen = () => {
         showSoftInputOnFocus={false}
         value={expression}
       />
-      <Text style={styles.result}>{result}</Text>
+      <Text testID="result" style={styles.result}>
+        {result}
+      </Text>
     </View>
   );
 };

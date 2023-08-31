@@ -7,7 +7,7 @@ export const Keyboard = () => {
   return (
     <View style={styles.wrapper}>
       {keys.map(key => (
-        <KeyComponent calcKey={key} />
+        <KeyComponent calcKey={key} key={key.value} />
       ))}
     </View>
   );

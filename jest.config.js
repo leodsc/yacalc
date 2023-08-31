@@ -1,7 +1,11 @@
 /** @type {import('jest').Config} */
 module.exports = {
   preset: 'react-native',
-  collectCoverageFrom: ['./src/**/*.ts'],
+  fakeTimers: {
+    enableGlobally: true,
+  },
+  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  collectCoverageFrom: ['./src/**/*.ts', './src/**/*.tsx'],
   coverageThreshold: {
     global: {
       branches: 80,
