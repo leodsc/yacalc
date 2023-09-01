@@ -86,14 +86,12 @@ export const Screen = () => {
       };
     });
   }, [expression]);
-  const ref = useRef<TextInput>(null);
 
   return (
     <View style={styles.wrapper}>
       <TextInput
         testID="expression-input"
         style={styles.input}
-        ref={ref}
         multiline
         selection={position}
         cursorColor="black"
