@@ -38,7 +38,7 @@ export const Screen = () => {
               `${calculate(toCalculable(previous))}`,
             );
             if (isNaN(Number(calculated.replace(',', '')))) {
-              //ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
+              ToastAndroid.show('Invalid!!', ToastAndroid.SHORT);
               return previous;
             }
             return calculated;
