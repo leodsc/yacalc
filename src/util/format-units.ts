@@ -27,6 +27,9 @@ const tokenize = (expression: string) => {
 
 const format = (token: string) => {
   const {decimal, unit} = detectDecimalSeparator();
+  if (decimal === ',') {
+    token = token.replace('.', ',');
+  }
   const [integerPart, decimalPart] = token.split(decimal);
 
   if (integerPart.length < 4) {
@@ -58,7 +61,6 @@ const format = (token: string) => {
 export const formatUnits = (expression: string) => {
   const tokens = tokenize(expression);
 
-  console.log(tokens);
   return tokens
     .map(token => {
       return format(token);

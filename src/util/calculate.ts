@@ -43,7 +43,6 @@ class Calculator {
           .slice(0, expression.length - 1)
           .join('')
       : expression;
-    console.log(expression);
     this.postfix = new Postfix(expression).convert();
 
     for (const item of this.postfix) {

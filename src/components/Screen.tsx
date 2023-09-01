@@ -1,5 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native';
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import {useCalculatorStore} from '../state/calculator-store';
 import {calculate} from '../util/calculate';
 import {formatUnits} from '../util/format-units';
@@ -79,15 +86,16 @@ export const Screen = () => {
       };
     });
   }, [expression]);
+  const ref = useRef<TextInput>(null);
 
   return (
     <View style={styles.wrapper}>
       <TextInput
         testID="expression-input"
         style={styles.input}
+        ref={ref}
         multiline
         selection={position}
-        autoFocus
         cursorColor="black"
         onSelectionChange={e => {
           const {start, end} = e.nativeEvent.selection;
@@ -114,14 +122,18 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: 'white',
     flex: 0.35,
+    paddingLeft: 8,
   },
 
   input: {
     fontSize: 24,
     height: '50%',
+    color: 'black',
   },
 
   result: {
     fontSize: 16,
+    color: 'black',
+    opacity: 0.5,
   },
 });

@@ -1,5 +1,11 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
 import {useCalculatorStore} from '../../state/calculator-store';
 import {IKey} from './cutom-key';
 
@@ -33,12 +39,13 @@ export const KeyComponent = ({calcKey}: KeyProps) => {
   };
 
   return (
-    <TouchableOpacity
+    <TouchableHighlight
       testID={calcKey.testID}
       onPress={addKey}
+      underlayColor="#AAAAAA"
       activeOpacity={0.5}
       style={styles.key}>
       <Text style={styles.text}>{calcKey.value}</Text>
-    </TouchableOpacity>
+    </TouchableHighlight>
   );
 };
